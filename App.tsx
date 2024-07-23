@@ -1,118 +1,98 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+//bước 1: import
+import { MyTheme, useTheme } from './Components/Theme/MyTheme'
+import Section from './Components/Section'
+import TextInputDemo from './Components/TextInputDemo'
+import ButtomCustom from './Components/ButtomCustom'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  //B2: return cấu trúc theme
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <MyTheme>
+
+
+
+
+      <BodyApp />
+    </MyTheme>
+  )
+}
+
+
+const BodyApp = () => {
+  // sử dụng hook để thao tác với theme
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView style={[st.khung, { backgroundColor: theme === 'light' ? '#fff' : 'red' }]}>
+        <Text style={{ color: theme === 'light' ? '#000' : '#fff', fontWeight: 'bold', fontSize: 30, textAlign: 'center' }}>
+          Đăng kí thông tin học</Text>
+
+
+
+        {theme === 'light' ?
+
+          <Image source={require('../Lab1/Components/img/logo.png')} style={{ width: "100%", height: 150 }} resizeMode='stretch' />
+          :
+          <Image source={require('../Lab1/Components/img/gg.png')} style={{ width: "100%", height: 150 }} resizeMode='stretch' />
+        }
+
+        <Section title="Thông tin cá nhân" style={{ backgroundColor: theme === 'light' ? 'aqua' : 'white' }}>
+          <View>
+            <TextInputDemo placeholder="Nhập tên" label="Họ và tên" />
+            <TextInputDemo placeholder="Nhập MSV" label="Mã sinh viên" />
+            <ButtomCustom title={"Save"} onPress={() => { Alert.alert('Saved') }} backgroundColor="#4CAF50"
+              textColor="#fff" />
+          </View>
+        </Section>
+        <Section title="Thông tin Khóa học" style={{ backgroundColor: theme === 'light' ? 'aqua' : 'white' }}>
+          <View>
+            <TextInputDemo placeholder="Nhập Thông tin khóa học" label="Thông tin khóa học" />
+
+            <ButtomCustom title={"Save"} onPress={() => { Alert.alert('Saved') }} backgroundColor="#4CAF50"
+              textColor="#fff" />
+          </View>
+        </Section>
+        <Section title="Thông tin liên hệ" style={{ backgroundColor: theme === 'light' ? 'aqua' : 'white' }}>
+          <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+            <Text>
+              Address : Thái Bình
+
+            </Text>
+            <Text >
+              Hotline : 012345667
+
+            </Text>
+
+          </View>
+        </Section>
+
+      </ScrollView >
+      <View style={{ position: 'absolute', zIndex: 3000, bottom: 70, right: 70 }}>
+
+        <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center', position: 'absolute' }} onPress={toggleTheme}>
+
+          <Image source={require('../Lab1/Components/img/theme.png')} style={{ width: 30, height: 30 }} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+export default App
 
-export default App;
+
+const st = StyleSheet.create({
+  khung: {
+
+    height: 100,
+
+    flex: 1,
+    padding: 10
+  }
+})
